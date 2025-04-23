@@ -1,0 +1,37 @@
+# www deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.wwwDeploymentName }}
+  labels:
+    app: {{ .Values.wwwServiceName }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.wwwServiceName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.wwwServiceName }}
+    spec:
+      containers:
+      - image: {{ .Values.wwwImage }}
+        name: {{ .Values.wwwAppName }}
+        
+---
+# www service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Values.wwwServiceName }}
+  name: {{ .Values.wwwServiceName }}
+spec:
+  selector:
+    app: {{ .Values.wwwServiceName }}
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80

@@ -1,0 +1,36 @@
+# api deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.apiDeploymentName }}
+  labels:
+    app: {{ .Values.apiServiceName }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.apiServiceName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.apiServiceName }}
+    spec:
+      containers:
+      - image: {{ .Values.apiImage }} 
+        name: {{ .Values.apiAppName }}
+---
+# api service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Values.apiServiceName }}
+  name: {{ .Values.apiServiceName }}
+spec:
+  selector:
+    app: {{ .Values.apiServiceName }}
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80

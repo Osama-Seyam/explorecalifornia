@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: explorecalifornia-ing
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: {{ .Values.wwwServiceAddress }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.wwwServiceName }}
+            port:
+              number: 80
+              
+      - path: /admin
+        pathType: Exact 
+        backend: 
+          service: 
+            name: {{ .Values.adminServiceName }}
+            port:
+              number: 80
+
+  - host: {{ .Values.apiServiceAddress }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.apiServiceName }}
+            port:
+              number: 80
+
+  

@@ -1,0 +1,40 @@
+# admin deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.adminDeploymentName }}
+  labels:
+    app: {{ .Values.adminServiceName }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.adminServiceName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.adminServiceName }}
+    spec:
+      containers:
+      - image: {{ .Values.apiImage }} 
+        name: {{ .Values.adminServiceName }}
+        env:
+        - name: ECHO_SERVER_BASE_PATH
+          value: "/admin"
+
+---
+# admin service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Values.adminServiceName }}
+  name: {{ .Values.adminServiceName }}
+spec:
+  selector:
+    app: {{ .Values.adminServiceName }}
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
