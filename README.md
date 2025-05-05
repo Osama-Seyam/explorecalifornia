@@ -61,7 +61,7 @@ Steps may be long so be patient
     > A **prerequisite** is a file that is used as input to create the target. A target often depends on several files.
 
     > A **recipe** is an action that make carries out. A recipe may have more than one command, either on the same line or each on its own line. Please note: you `need to put a tab character at the beginning of every recipe line! This is an obscurity that catches the unwary
-
+ s
     > A **phony target** is one that is not really the name of a file; rather it is just a name for a recipe to be executed when you make an explicit request. There are two reasons to use a phony target: to avoid a conflict with a file of the same name, and to improve performance
 
 * We are going to start with the website files in "website" directory, Dockerfile and build on it step by step
